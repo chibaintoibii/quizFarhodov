@@ -3,7 +3,7 @@ import { QuizService } from '../services/quiz.service';
 import { Quiz } from '../entities/quiz.entity';
 import { CreateQuizDto } from '../dto/create-quiz.dto';
 
-@Controller('quizes')
+@Controller('quiz')
 export class QuizController {
   constructor(private quizService: QuizService) {}
 
@@ -13,12 +13,12 @@ export class QuizController {
   }
 
   @Post()
-  async createQuiz(@Body() quizData: CreateQuizDto): Promise<Quiz> {
-    return await this.quizService.create(quizData);
+  async createQuiz(@Body() dataDto: CreateQuizDto): Promise<Quiz> {
+    return await this.quizService.create(dataDto);
   }
 
   @Get(':id')
   async getQuizById(@Param('id', ParseIntPipe) id: number): Promise<Quiz>{
-    return await this.getQuizById(id);
+    return await this.quizService.getById(id);
   }
 }

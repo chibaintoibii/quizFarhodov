@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   ManyToOne,
@@ -9,8 +8,8 @@ import {
 import { Option } from './option.entity';
 import { Quiz } from './quiz.entity';
 
-@Entity('questions')
-export class Question extends BaseEntity {
+@Entity()
+export class Question {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,9 +18,9 @@ export class Question extends BaseEntity {
   })
   question: string;
 
-  @ManyToOne(() => Quiz, (quiz) => quiz.questions)
+  @ManyToOne(() => Quiz, (quiz: Quiz) => quiz.questions)
   quiz: Quiz;
 
-  @OneToMany(() => Option, (option) => option.question)
+  @OneToMany(() => Option, (option: Option) => option.question)
   options: Option[];
 }

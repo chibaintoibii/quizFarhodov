@@ -10,20 +10,23 @@ export class QuestionService {
   constructor(
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
-    private quizRepository: Repository<Quiz>
+    @InjectRepository(Quiz)
+    private quizRepository: Repository<Quiz>,
   ) {}
 
   async create(question: CreateQuestionDto, quiz: Quiz): Promise<Question> {
-    const newQuestion = this.questionRepository.create(question);
-    quiz.questions = [...quiz.questions, newQuestion];
-    await this.quizRepository.save(quiz);
+    const newQuestion = this.questionRepository.create({
+      ...question,
+      quiz: quiz,
+    });
+    await this.questionRepository.save(newQuestion);
     return newQuestion;
   }
 
-  async findById(id: number){
+  async findById(id: number) {
     return await this.questionRepository.findOne({
-      where: {id},
-      relations: ['quiz', 'options']
+      where: { id },
+      relations: ['options'],
     });
   }
 }

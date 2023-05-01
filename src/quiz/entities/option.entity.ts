@@ -1,25 +1,15 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Question } from './question.entity';
 
-@Entity('options')
-export class Option extends BaseEntity {
+@Entity()
+export class Option {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: 'varchar',
-  })
+  @Column()
   text: string;
 
-  @Column({
-    type: 'boolean',
-  })
+  @Column()
   isCorrect: boolean;
 
   @ManyToOne(() => Question, (question) => question.options)

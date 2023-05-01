@@ -1,28 +1,17 @@
-import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Question } from './question.entity';
 
+@Entity()
 export class Quiz {
-  @PrimaryGeneratedColumn({
-    comment: 'The quiz unique identifier',
-  })
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    type: 'varchar',
-  })
+  @Column()
   title: string;
 
-  @Column({
-    type: 'text',
-  })
+  @Column()
   description: string;
 
-  @Column({
-    type: 'boolean',
-    default: 1,
-  })
-  isActive: boolean;
-
-  @OneToMany(() => Question, (question) => question.quiz)
+  @OneToMany(() => Question, (question: Question) => question.quiz)
   questions: Question[];
 }

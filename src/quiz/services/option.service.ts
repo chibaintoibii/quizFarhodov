@@ -15,10 +15,13 @@ export class OptionService {
   ) {}
 
   async create(option: CreateOptionDto, question: Question): Promise<Option> {
-    const newOption = this.optionRepository.create(option);
+    console.log(option);
+    const newOption = this.optionRepository.create({
+      ...option,
+      question,
+    });
 
-    question.options = [...question.options, newOption];
-    await this.questionRepository.save(question);
+    await this.optionRepository.save(newOption);
     return newOption;
   }
 }

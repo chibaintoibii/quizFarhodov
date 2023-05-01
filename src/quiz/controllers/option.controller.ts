@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { OptionService } from '../services/option.service';
 import { QuestionService } from '../services/question.service';
 import { CreateOptionDto } from '../dto/create-option.dto';
@@ -12,7 +12,9 @@ export class OptionsController {
   @Post()
   async saveOptionToQuestion(@Body() dataDto: CreateOptionDto) {
     const question = await this.questionService.findById(dataDto.questionId);
-    const option = await this.optionService.create(dataDto, question);
-    return { question, dataDto, option };
+    if (!question) {
+      throw new HttpException('question not found', 404);
+    }
+    return await this.optionService.create(dataDto, question);
   }
 }
